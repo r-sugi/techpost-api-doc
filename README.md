@@ -8,7 +8,7 @@ npm install -g swagger
 
 # run server
 ```
-swagger project start [projectName]
+swagger project start techpost-api-doc
 ```
 
 # docs page
@@ -16,9 +16,9 @@ swagger project start [projectName]
 http://localhost:10010/docs/
 ```
 
-# edit swagger.yaml
+# edit swagger.yaml on browser
 ```
-swagger project edit [projectName]
+swagger project edit techpost-api-doc
 ```
 
 # ref
