@@ -16,5 +16,10 @@ swagger project start [projectName]
 http://localhost:10010/docs/
 ```
 
+# edit swagger.yaml
+```
+swagger project edit [projectName]
+```
+
 # ref
 https://qiita.com/jooex/items/cae3266f6b0d120facac
