@@ -1,595 +1,102 @@
 const spec = {
   swagger: "2.0",
   info: {
-    description: "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-    version: "1.0.3",
-    title: "Swagger Petstore",
-    termsOfService: "http://swagger.io/terms/",
-    contact: {
-      email: "apiteam@swagger.io"
-    },
-    license: {
-      name: "Apache 2.0",
-      url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
+    title: "techpost",
+    version: "1.0.0",
   },
-  host: "petstore.swagger.io",
-  basePath: "/v2",
-  tags: [
-    {
-      name: "pet",
-      description: "Everything about your Pets",
-      externalDocs: {
-        description: "Find out more",
-        url: "http://swagger.io"
-      }
-    },
-    {
-      name: "store",
-      description: "Access to Petstore orders"
-    },
-    {
-      name: "user",
-      description: "Operations about user",
-      externalDocs: {
-        description: "Find out more about our store",
-        url: "http://swagger.io"
-      }
-    }
-  ],
   schemes: [
     "https",
     "http"
   ],
+  basePath: "/api/v1",
+  tags: [
+    {
+      name: "projects",
+      description: "levtech project list",
+    },
+    {
+      name: "users",
+      description: "firebase.User",
+      externalDocs: {
+        description: "Find out more about User type",
+        url: "https://firebase.google.com/docs/reference/js/firebase.User?hl=ja"
+      }
+    },
+    {
+      name: "reviews",
+      description: "user.reviews",
+    },
+  ],
   paths: {
-    [`/pet/petId`]: {
+    [`/users`]: {
       get: {
         tags: [
-          "pet"
+          "users"
         ],
-        summary: "Find pet by ID",
-        description: "Returns a single pet",
-        operationId: "getPetById",
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "petId",
-            in: "path",
-            description: "ID of pet to return",
-            required: true,
-            type: "integer",
-            format: "int64"
-          }
-        ],
-        responses: {
-          200: {
-            description: "successful operation",
-            schema: {
-              $ref: "#/definitions/Pet"
-            }
-          },
-          400: {
-            description: "Invalid ID supplied"
-          },
-          404: {
-            description: "Pet not found"
-          }
-        },
-        security: [
-          {
-            api_key: []
-          }
-        ]
-      },
-      post: {
-        tags: [
-          "pet"
-        ],
-        summary: "Updates a pet in the store with form data",
-        description: "",
-        operationId: "updatePetWithForm",
+        description: "admin page will call this endpoint",
+        summary: "Get user",
+        operationId: "getUser",
         consumes: [
-          "application/x-www-form-urlencoded"
-        ],
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "petId",
-            in: "path",
-            description: "ID of pet that needs to be updated",
-            required: true,
-            type: "integer",
-            format: "int64"
-          },
-          {
-            name: "name",
-            in: "formData",
-            description: "Updated name of the pet",
-            required: false,
-            type: "string"
-          },
-          {
-            name: "status",
-            in: "formData",
-            description: "Updated status of the pet",
-            required: false,
-            type: "string"
-          }
-        ],
-        responses: {
-          405: {
-            description: "Invalid input"
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      delete: {
-        tags: [
-          "pet"
-        ],
-        summary: "Deletes a pet",
-        description: "",
-        operationId: "deletePet",
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "api_key",
-            in: "header",
-            required: false,
-            type: "string"
-          },
-          {
-            name: "petId",
-            in: "path",
-            description: "Pet id to delete",
-            required: true,
-            type: "integer",
-            format: "int64"
-          }
-        ],
-        responses: {
-          400: {
-            description: "Invalid ID supplied"
-          },
-          404: {
-            description: "Pet not found"
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    [`/pet/petId/uploadImage`]: {
-      post: {
-        tags: [
-          "pet"
-        ],
-        summary: "uploads an image",
-        description: "",
-        operationId: "uploadFile",
-        consumes: [
-          "multipart/form-data"
+          "application/json"
         ],
         produces: [
           "application/json"
         ],
         parameters: [
           {
-            name: "petId",
-            in: "path",
-            description: "ID of pet to update",
-            required: true,
-            type: "integer",
-            format: "int64"
-          },
-          {
-            name: "additionalMetadata",
-            in: "formData",
-            description: "Additional data to pass to server",
-            required: false,
-            type: "string"
-          },
-          {
-            name: "file",
-            in: "formData",
-            description: "file to upload",
-            required: false,
-            type: "file"
-          }
-        ],
-        responses: {
-          200: {
-            description: "successful operation",
-            schema: {
-              $ref: "#/definitions/ApiResponse"
-            }
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    [`/pet`]: {
-      post: {
-        tags: [
-          "pet"
-        ],
-        summary: "Add a new pet to the store",
-        description: "",
-        operationId: "addPet",
-        consumes: [
-          "application/json",
-          "application/xml"
-        ],
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            in: "body",
-            name: "body",
-            description: "Pet object that needs to be added to the store",
-            required: true,
-            schema: {
-              $ref: "#/definitions/Pet"
-            }
-          }
-        ],
-        responses: {
-          405: {
-            description: "Invalid input"
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      put: {
-        tags: [
-          "pet"
-        ],
-        summary: "Update an existing pet",
-        description: "",
-        operationId: "updatePet",
-        consumes: [
-          "application/json",
-          "application/xml"
-        ],
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            in: "body",
-            name: "body",
-            description: "Pet object that needs to be added to the store",
-            required: true,
-            schema: {
-              $ref: "#/definitions/Pet"
-            }
-          }
-        ],
-        responses: {
-          400: {
-            description: "Invalid ID supplied"
-          },
-          404: {
-            description: "Pet not found"
-          },
-          405: {
-            description: "Validation exception"
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    [`/pet/findByStatus`]: {
-      get: {
-        tags: [
-          "pet"
-        ],
-        summary: "Finds Pets by status",
-        description: "Multiple status values can be provided with comma separated strings",
-        operationId: "findPetsByStatus",
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "status",
             in: "query",
-            description: "Status values that need to be considered for filter",
-            required: true,
-            type: "array",
-            items: {
-              type: "string",
-              enum: [
-                "available",
-                "pending",
-                "sold"
-              ],
-              default: "available"
-            },
-            collectionFormat: "multi"
-          }
+            name: "createdAt",
+            type: "string",
+            enum: [
+              "asc",
+              "desc"
+            ],
+            default: "asc",
+            description: "Sort order by createdAt"
+          },
+          {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 20,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
+          },
         ],
         responses: {
           200: {
-            description: "successful operation",
+            description: "success",
             schema: {
               type: "array",
               items: {
-                $ref: "#/definitions/Pet"
+                $ref: '#/definitions/User'
               }
             }
-          },
-          400: {
-            description: "Invalid status value"
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    [`/pet/findByTags`]: {
-      get: {
-        tags: [
-          "pet"
-        ],
-        summary: "Finds Pets by tags",
-        description: "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        operationId: "findPetsByTags",
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "tags",
-            in: "query",
-            description: "Tags to filter by",
-            required: true,
-            type: "array",
-            items: {
-              type: "string"
-            },
-            collectionFormat: "multi"
-          }
-        ],
-        responses: {
-          200: {
-            description: "successful operation",
-            schema: {
-              type: "array",
-              items: {
-                $ref: "#/definitions/Pet"
-              }
-            }
-          },
-          400: {
-            description: "Invalid tag value"
-          }
-        },
-        security: [
-          {
-            petstore_auth: [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ],
-        deprecated: true
-      }
-    },
-    [`/store/inventory`]: {
-      get: {
-        tags: [
-          "store"
-        ],
-        summary: "Returns pet inventories by status",
-        description: "Returns a map of status codes to quantities",
-        operationId: "getInventory",
-        produces: [
-          "application/json"
-        ],
-        parameters: [],
-        responses: {
-          200: {
-            description: "successful operation",
-            schema: {
-              type: "object",
-              additionalProperties: {
-                type: "integer",
-                format: "int32"
-              }
-            }
-          }
-        },
-        security: [
-          {
-            api_key: []
-          }
-        ]
-      }
-    },
-    [`/store/order/orderId`]: {
-      get: {
-        tags: [
-          "store"
-        ],
-        summary: "Find purchase order by ID",
-        description: "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
-        operationId: "getOrderById",
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "orderId",
-            in: "path",
-            description: "ID of pet that needs to be fetched",
-            required: true,
-            type: "integer",
-            maximum: 10,
-            minimum: 1,
-            format: "int64"
-          }
-        ],
-        responses: {
-          200: {
-            description: "successful operation",
-            schema: {
-              $ref: "#/definitions/Order"
-            }
-          },
-          400: {
-            description: "Invalid ID supplied"
-          },
-          404: {
-            description: "Order not found"
           }
         }
       },
-      delete: {
-        tags: [
-          "store"
-        ],
-        summary: "Delete purchase order by ID",
-        description: "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
-        operationId: "deleteOrder",
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            name: "orderId",
-            in: "path",
-            description: "ID of the order that needs to be deleted",
-            required: true,
-            type: "integer",
-            minimum: 1,
-            format: "int64"
-          }
-        ],
-        responses: {
-          400: {
-            description: "Invalid ID supplied"
-          },
-          404: {
-            description: "Order not found"
-          }
-        }
-      }
-    },
-    [`/store/order`]: {
       post: {
         tags: [
-          "store"
-        ],
-        summary: "Place an order for a pet",
-        description: "",
-        operationId: "placeOrder",
-        consumes: [
-          "application/json"
-        ],
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            in: "body",
-            name: "body",
-            description: "order placed for purchasing the pet",
-            required: true,
-            schema: {
-              $ref: "#/definitions/Order"
-            }
-          }
-        ],
-        responses: {
-          200: {
-            description: "successful operation",
-            schema: {
-              $ref: "#/definitions/Order"
-            }
-          },
-          400: {
-            description: "Invalid Order"
-          }
-        }
-      }
-    },
-    [`/user`]: {
-      post: {
-        tags: [
-          "user"
+          "users"
         ],
         summary: "Create user",
-        description: "This can only be done by the logged in user.",
         operationId: "createUser",
         consumes: [
           "application/json"
         ],
         produces: [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         parameters: [
           {
             in: "body",
-            name: "body",
+            name: "user",
             description: "Created user object",
             required: true,
             schema: {
@@ -598,384 +105,1021 @@ const spec = {
           }
         ],
         responses: {
-          default: {
-            description: "successful operation"
-          }
-        }
-      }
-    },
-    [`/user/createWithArray`]: {
-      post: {
-        tags: [
-          "user"
-        ],
-        summary: "Creates list of users with given input array",
-        description: "",
-        operationId: "createUsersWithArrayInput",
-        consumes: [
-          "application/json"
-        ],
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            in: "body",
-            name: "body",
-            description: "List of user object",
-            required: true,
+          200: {
+            description: "success",
             schema: {
-              type: "array",
-              items: {
-                $ref: "#/definitions/User"
-              }
+              $ref: '#/definitions/User'
             }
           }
-        ],
-        responses: {
-          default: {
-            description: "successful operation"
-          }
         }
       }
     },
-    [`/user/createWithList`]: {
-      post: {
-        tags: [
-          "user"
-        ],
-        summary: "Creates list of users with given input array",
-        description: "",
-        operationId: "createUsersWithListInput",
-        consumes: [
-          "application/json"
-        ],
-        produces: [
-          "application/json",
-          "application/xml"
-        ],
-        parameters: [
-          {
-            in: "body",
-            name: "body",
-            description: "List of user object",
-            required: true,
-            schema: {
-              type: "array",
-              items: {
-                $ref: "#/definitions/User"
-              }
-            }
-          }
-        ],
-        responses: {
-          default: {
-            description: "successful operation"
-          }
-        }
-      }
-    },
-    [`/user/username`]: {
+    [`/projects/summuries`]: {
       get: {
         tags: [
-          "user"
+          "projects"
         ],
-        summary: "Get user by user name",
-        description: "",
-        operationId: "getUserByName",
+        summary: "Get projects summuries",
+        operationId: "getProjectSummuries",
+        consumes: [
+          "application/json"
+        ],
         produces: [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         parameters: [
           {
-            name: "username",
-            in: "path",
-            description: "The name that needs to be fetched. Use user1 for testing. ",
-            required: true,
-            type: "string"
+            in: "query",
+            name: "createdAt",
+            type: "string",
+            enum: [
+              "asc",
+              "desc"
+            ],
+            default: "desc",
+            description: "Sort order by createdAt"
+          },
+          {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 20,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
+          },
+
+        ],
+        responses: {
+          200: {
+            description: "success",
+            schema: {
+              type: "array",
+              items: {
+                $ref: '#/definitions/ProjectCardItem'
+              }
+            },
+          }
+        }
+      },
+    },
+    [`/projects/search`]: {
+      get: {
+        tags: [
+          "projects"
+        ],
+        summary: "Get projects",
+        operationId: "getProjectsSearch",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
+        ],
+        parameters: [
+          {
+            in: "query",
+            name: "keyword",
+            type: "string",
+            description: "keyword skill.name | station.name | database.name | framework.name | projectTask.name",
+          },
+          {
+            in: "query",
+            name: "skill",
+            type: "array",
+            items: {
+              type: "number",
+            },
+            description: "skill_ids",
+          },
+          {
+            in: "query",
+            name: "district",
+            type: "array",
+            items: {
+              type: "number",
+            },
+            description: "district_ids",
+          },
+          {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 20,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
+          },
+
+        ],
+        responses: {
+          200: {
+            description: "success",
+            schema: {
+              type: "array",
+              items: {
+                $ref: '#/definitions/ProjectListItem'
+              }
+            }
+          }
+        }
+      }
+    },
+    [`/projects/search/skill-{skillId}`]: {
+      get: {
+        tags: [
+          "projects"
+        ],
+        summary: "Get projects",
+        operationId: "getProjectsBySkillId",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
+        ],
+        parameters: [
+          {
+            in: "query",
+            name: "createdAt",
+            type: "string",
+            enum: [
+              "asc",
+              "desc"
+            ],
+            default: "desc",
+            description: "Sort order by createdAt"
+          },
+          {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 12,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
           }
         ],
         responses: {
           200: {
-            description: "successful operation",
+            description: "success",
             schema: {
-              $ref: "#/definitions/User"
+              type: "array",
+              items: {
+                $ref: '#/definitions/ProjectListItem'
+              }
             }
-          },
-          400: {
-            description: "Invalid username supplied"
-          },
-          404: {
-            description: "User not found"
           }
         }
-      },
-      put: {
+      }
+    },
+    [`/projects/{projectId}`]: {
+      get: {
         tags: [
-          "user"
+          "projects"
         ],
-        summary: "Updated user",
-        description: "This can only be done by the logged in user.",
-        operationId: "updateUser",
+        summary: "Get project detail",
+        operationId: "getProjectDetail",
         consumes: [
           "application/json"
         ],
         produces: [
-          "application/json",
-          "application/xml"
+          "application/json"
+        ],
+        responses: {
+          200: {
+            description: "success",
+            schema: {
+              $ref: '#/definitions/ProjectDetail'
+            }
+          }
+        }
+      }
+    },
+    [`/projects/{projectId}/reviews`]: {
+      get: {
+        tags: [
+          "projects"
+        ],
+        summary: "Get project reviews",
+        operationId: "getProjectReviews",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
         ],
         parameters: [
           {
-            name: "username",
-            in: "path",
-            description: "name that need to be updated",
-            required: true,
-            type: "string"
+            in: "query",
+            name: "createdAt",
+            type: "string",
+            enum: [
+              "asc",
+              "desc"
+            ],
+            default: "desc",
+            description: "Sort order by createdAt"
           },
           {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 20,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
+          },
+
+        ],
+        responses: {
+          200: {
+            description: "success",
+            schema: {
+              type: "array",
+              items: {
+                $ref: '#/definitions/Review'
+              }
+            }
+          }
+        }
+      }
+    },
+    [`/reviews/search`]: {
+      get: {
+        tags: [
+          "reviews"
+        ],
+        summary: "Get project user reviews",
+        operationId: "GetProjectUserReviews",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
+        ],
+        parameters: [
+          {
+            in: "query",
+            name: "keyword",
+            type: "string",
+            description: "params accept Project.properties | Review.properties",
+          },
+          {
+            in: "query",
+            name: "skill",
+            type: "array",
+            items: {
+              type: "number",
+            },
+            description: "skill_ids",
+          },
+          {
+            in: "query",
+            name: "district",
+            type: "array",
+            items: {
+              type: "number",
+            },
+            description: "district_ids",
+          },
+          {
+            in: "query",
+            name: "createdAt",
+            type: "string",
+            enum: [
+              "asc",
+              "desc"
+            ],
+            default: "desc",
+            description: "Sort order by createdAt"
+          },
+          {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 12,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
+          }
+        ],
+        responses: {
+          200: {
+            description: "success",
+            schema: {
+              type: "array",
+              items: {
+                $ref: '#/definitions/Review'
+              }
+            },
+          }
+        }
+      }
+    },
+    [`/reviews/{userId}`]: {
+      get: {
+        tags: [
+          "reviews"
+        ],
+        summary: "Get project user reviews by userId",
+        operationId: "GetProjectUserReviewsByUserId",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
+        ],
+        parameters: [
+          {
+            in: "query",
+            name: "createdAt",
+            type: "string",
+            enum: [
+              "asc",
+              "desc"
+            ],
+            default: "desc",
+            description: "Sort order by createdAt"
+          },
+          {
+            in: "query",
+            name: "limit",
+            type: "number",
+            default: 12,
+            required: false,
+          },
+          {
+            in: "query",
+            name: "offset",
+            type: "number",
+            default: 0,
+            required: false,
+          }
+        ],
+        responses: {
+          200: {
+            description: "success",
+            schema: {
+              type: "array",
+              items: {
+                $ref: '#/definitions/Review'
+              }
+            },
+          }
+        }
+      },
+      post: {
+        tags: [
+          "reviews"
+        ],
+        summary: "Post project user review",
+        operationId: "PostProjectUserReview",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
+        ],
+        parameters: [
+          {
             in: "body",
-            name: "body",
-            description: "Updated user object",
+            name: "review",
+            description: "Created project user review",
             required: true,
             schema: {
-              $ref: "#/definitions/User"
+              $ref: "#/definitions/Review"
             }
           }
         ],
         responses: {
-          400: {
-            description: "Invalid user supplied"
-          },
-          404: {
-            description: "User not found"
+          200: {
+            description: "success",
+            schema: {
+              $ref: '#/definitions/Review'
+            }
           }
         }
       },
-      delete: {
+    },
+    [`/reviews/suggestProjects`]: {
+      post: {
+        description: 'suggest similar project list in order to prevent creating duplicated project',
         tags: [
-          "user"
+          "reviews"
         ],
-        summary: "Delete user",
-        description: "This can only be done by the logged in user.",
-        operationId: "deleteUser",
+        summary: "Post Suggestions Project List",
+        operationId: "PostSuggestionsProjectList",
+        consumes: [
+          "application/json"
+        ],
         produces: [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         parameters: [
           {
-            name: "username",
-            in: "path",
-            description: "The name that needs to be deleted",
+            in: "body",
+            name: "projectSuggestFactor",
+            description: "suggest list based on user choices of review form",
             required: true,
-            type: "string"
+            schema: {
+              $ref: "#/definitions/ProjectSuggestFactor"
+            }
           }
         ],
         responses: {
-          400: {
-            description: "Invalid username supplied"
-          },
-          404: {
-            description: "User not found"
+          200: {
+            description: "success",
+            schema: {
+              type: "array",
+              items: {
+                $ref: '#/definitions/ProjectSuggestListItem'
+              }
+            }
           }
         }
       }
     },
-  },
-  securityDefinitions: {
-    api_key: {
-      type: "apiKey",
-      name: "api_key",
-      in: "header"
-    },
-    petstore_auth: {
-      type: "oauth2",
-      authorizationUrl: "https://petstore.swagger.io/oauth/authorize",
-      flow: "implicit",
-      scopes: {
-        read: `pets: "read your pets"`,
-        write: `pets: "modify pets in your account"`
-      }
+    [`/reviews/{userId}/{projectId}`]: {
+      put: {
+        tags: [
+          "reviews"
+        ],
+        summary: "Update project user review",
+        operationId: "UpdateProjectUserReview",
+        consumes: [
+          "application/json"
+        ],
+        produces: [
+          "application/json"
+        ],
+        parameters: [
+          {
+            in: "body",
+            name: "review",
+            description: "Created project user review",
+            required: true,
+            schema: {
+              $ref: "#/definitions/Review"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "success",
+          }
+        }
+      },
     }
   },
   definitions: {
-    Category: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
-          format: "int64"
-        },
-        name: {
-          type: "string"
-        }
-      },
-      xml: {
-        name: "Category"
-      }
-    },
-    Pet: {
+    User: {
       type: "object",
       required: [
-        "name",
-        "photoUrls"
+        "id",
       ],
       properties: {
         id: {
-          type: "integer",
-          format: "int64"
+          type: "number",
+          example: "1"
         },
-        category: {
-          $ref: "#/definitions/Category"
-        },
-        name: {
+        uid: {
           type: "string",
-          example: "doggie"
-        },
-        photoUrls: {
-          type: "array",
-          xml: {
-            wrapped: true
-          },
-          items: {
-            type: "string",
-            xml: {
-              name: "photoUrl"
-            }
-          }
-        },
-        tags: {
-          type: "array",
-          xml: {
-            wrapped: true
-          },
-          items: {
-            xml: {
-              name: "tag"
-            },
-            $ref: "#/definitions/Tag"
-          }
-        },
-        status: {
-          type: "string",
-          description: "pet status in the store",
-          enum: [
-            "available",
-            "pending",
-            "sold"
-          ]
-        }
-      },
-      xml: {
-        name: "Pet"
-      }
-    },
-    Tag: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
-          format: "int64"
-        },
-        name: {
-          type: "string"
-        }
-      },
-      xml: {
-        name: "Tag"
-      }
-    },
-    ApiResponse: {
-      type: "object",
-      properties: {
-        code: {
-          type: "integer",
-          format: "int32"
-        },
-        type: {
-          type: "string"
-        },
-        message: {
-          type: "string"
-        }
-      }
-    },
-    Order: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
-          format: "int64"
-        },
-        petId: {
-          type: "integer",
-          format: "int64"
-        },
-        quantity: {
-          type: "integer",
-          format: "int32"
-        },
-        shipDate: {
-          type: "string",
-          format: "date-time"
-        },
-        status: {
-          type: "string",
-          description: "Order Status",
-          enum: [
-            "placed",
-            "approved",
-            "delivered"
-          ]
-        },
-        complete: {
-          type: "boolean"
-        }
-      },
-      xml: {
-        name: "Order"
-      }
-    },
-    User: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
-          format: "int64"
-        },
-        username: {
-          type: "string"
-        },
-        firstName: {
-          type: "string"
-        },
-        lastName: {
-          type: "string"
+          example: "AIXAyXSRDdRxSbVB0RkFw1urcWJ3"
         },
         email: {
+          type: "string",
+          example: "test@gmail.com"
+        },
+        displayName: {
+          type: "string",
+          example: "testFirstName testLastName"
+        },
+        photoURL: {
+          type: "string",
+          example: "https://lh3.googleusercontent.com/a-/BBxE7mBt6kCILt6KUUApDgp8ahRKOw9_9IA6bdXsCz298w"
+        },
+        emailVerified: {
+          type: "boolean"
+        },
+        isAnonymous: {
+          type: "boolean"
+        },
+        providerId: {
           type: "string"
         },
-        password: {
-          type: "string"
-        },
-        phone: {
-          type: "string"
-        },
-        userStatus: {
-          type: "integer",
-          format: "int32",
-          description: "User Status"
+        active: {
+          type: "boolean"
         }
-      },
-      xml: {
-        name: "User"
+      }
+    },
+    ProjectCardItem: {
+      type: "object",
+      properties: {
+        projectId: {
+          type: "number",
+          example: "41591"
+        },
+        projectTitle: {
+          type: "string",
+          example: "【Vue.js/Nuxt.js】HR関連サービス開発",
+        },
+        projectReward: {
+          type: "string",
+          example: "800,000",
+        },
+        constractTypes: {
+          type: "string",
+          enum: [
+            "業務委託"
+          ]
+        },
+        projectStation: {
+          type: "string",
+          example: "渋谷（東京都）",
+        },
+        skills: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Skill"
+          }
+        },
+        createdAt: {
+          type: "string",
+          format: "date-time",
+          example: "2019-09-07T10:40:52Z",
+        }
+      }
+    },
+    ProjectListItem: {
+      type: "object",
+      properties: {
+        projectId: {
+          type: "number",
+          example: "41591"
+        },
+        projectTitle: {
+          type: "string",
+          example: "【Vue.js/Nuxt.js】HR関連サービス開発",
+        },
+        projectReward: {
+          type: "string",
+          example: "800,000",
+        },
+        constractTypes: {
+          type: "string",
+          enum: [
+            "業務委託(フリーランス)"
+          ]
+        },
+        projectTask: {
+          type: "string",
+          example: `・スマートフォンとPC向けのHR関連サービス開発に携わって頂きます。 ・設計から幅広く担当して頂きます。 ・ご経験がある方は、Pythonも併せて依頼されることもございます。 ※担当範囲は、スキルや経験および進捗状況により変動いたします。 ・スマートフォンとPC向けのHR関連サービス開発に携わって頂きます。`,
+        },
+        projectStation: {
+          type: "string",
+          example: "渋谷（東京都）",
+        },
+        skills: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Skill"
+          }
+        },
+        requiredSkills: {
+          type: "string",
+          example: `・Vue.jsの実務経験1年以上・VuexもしくはSPA開発の実務経験1年以上 【下記から1点必須】 ・設計の実務経験 ・Nuxt.jsの実務経験 ・TypeScriptの実務経験 ・Jestの実務経験 ・UI/UXデザインの実務経験 ・サーバーサイドレンダリングの実務経験 ・コンポーネント指向のアプリケーション開発の実務経験 ・自社サービス開発の実務経験 ・マッチングサービス開発の実務経験 ・ディレクターやデザイナーと連携しながら仕様策定した実務経験 【歓迎スキル】・HR関連サービス開発の実務経験 ・Sketch、Figma、Illustrator、Photoshopの実務経験 ・Python、Djangoの実務経験 ・AWSの実務経験 ・ネイティブアプリ開発の実務経験 ・アーキテクトの実務経験  ・Gitを用いたチーム開発の実務経験 ・スクラム開発の実務経験  ・レビューの実務経験  ・CI/CD環境構築や自動化の実務経験  ・リーダーやリードエンジニアの実務経験  ・OSSなどへのコントリビュートやオーナーシップの経験 ※上記に似た経験やスキルをお持ちであれば申し込み可能なケースもございます！まずはお気軽にご相談ください！`,
+        },
+        createdAt: {
+          type: "string",
+          format: "date-time",
+          example: "2019-09-07T10:40:52Z",
+        }
+      }
+    },
+    ProjectDetail: {
+      type: "object",
+      properties: {
+        projectId: {
+          type: "number",
+          example: "41591"
+        },
+        projectTitle: {
+          type: "string",
+          example: "【Vue.js/Nuxt.js】HR関連サービス開発",
+        },
+        projectReward: {
+          type: "string",
+          example: "800,000",
+        },
+        constractTypes: {
+          type: "string",
+          enum: [
+            "業務委託(フリーランス)"
+          ]
+        },
+        projectStation: {
+          type: "string",
+          example: "渋谷（東京都）",
+        },
+        position: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Position"
+          }
+        },
+        projectTask: {
+          type: "string",
+          example: `<p>・スマートフォンとPC向けのHR関連サービス開発に携わって頂きます。 <br>
+          ・設計から幅広く担当して頂きます。 <br>
+          ・ご経験がある方は、Pythonも併せて依頼されることもございます。<br>
+          ※担当範囲は、スキルや経験および進捗状況により変動いたします。</p>`,
+        },
+        requiredSkills: {
+          type: "string",
+          example: `<p class="descDetail__txt">・Vue.jsの実務経験1年以上<br>
+          ・VuexもしくはSPA開発の実務経験1年以上<br>
+          【下記から1点必須】<br>
+          ・設計の実務経験<br>
+          ・Nuxt.jsの実務経験<br>
+          ・TypeScriptの実務経験<br>
+          ・Jestの実務経験<br>
+          ・UI/UXデザインの実務経験<br>
+          ・サーバーサイドレンダリングの実務経験<br>
+          ・コンポーネント指向のアプリケーション開発の実務経験<br>
+          ・自社サービス開発の実務経験<br>
+          ・マッチングサービス開発の実務経験<br>
+          ・ディレクターやデザイナーと連携しながら仕様策定した実務経験<br>
+          </p>
+          <p class="descDetail__txt descDetail__txt--skill">【歓迎スキル】</p>
+          <p class="descDetail__txt">・HR関連サービス開発の実務経験<br>
+          ・Sketch、Figma、Illustrator、Photoshopの実務経験<br>
+          ・Python、Djangoの実務経験<br>
+          ・AWSの実務経験<br>
+          ・ネイティブアプリ開発の実務経験<br>
+          ・アーキテクトの実務経験 <br>
+          ・Gitを用いたチーム開発の実務経験<br>
+          ・スクラム開発の実務経験 <br>
+          ・レビューの実務経験 <br>
+          ・CI/CD環境構築や自動化の実務経験 <br>
+          ・リーダーやリードエンジニアの実務経験 <br>
+          ・OSSなどへのコントリビュートやオーナーシップの経験<br>
+          </p>
+          <p class="descDetail__note">※上記に似た経験やスキルをお持ちであれば申し込み可能なケースもございます！まずはお気軽にご相談ください！</p>`,
+        },
+        skills: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Skill"
+          }
+        },
+        frameworks: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Framework"
+          }
+        },
+        databases: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Database"
+          }
+        },
+        operationSystems: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/OperationSystem"
+          }
+        },
+        otherTools: {
+          type: "string",
+          example: "AWS, Nginx, Unicorn, GitHub, Hadoop"
+        },
+        createdAt: {
+          type: "string",
+          format: "date-time",
+          example: "2019-09-07T10:40:52Z",
+        }
+      }
+    },
+    Review: {
+      type: "object",
+      required: [],
+      properties: {
+        userId: { type: "number", example: "1" },
+        projectId: { type: "number", example: "1" },
+        projectTitle: { type: "string", example: "道路業向け基幹業務システム開発" },
+        reward: { type: "number", example: "60" },
+        industry: {
+          $ref: "#/definitions/Industry"
+        },
+        station: {
+          $ref: "#/definitions/Station"
+        },
+        position: {
+          $ref: "#/definitions/Position"
+        },
+        skills: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Skill"
+          }
+        },
+        databases: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Database"
+          }
+        },
+        frameworks: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Framework"
+          }
+        },
+        technicalDebts: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/TechnicalDebt"
+          }
+        },
+        codeReviews: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/CodeReview"
+          }
+        },
+        testingPolicies: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/TestingPolicy"
+          }
+        },
+        interviews: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Interview"
+          }
+        },
+        projectTerm: {
+          $ref: "#/definitions/ProjectTerm"
+        },
+        projectTasks: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/ProjectTask"
+          }
+        },
+        contractType: {
+          $ref: "#/definitions/ContractType"
+        },
+        projectMemberScale: {
+          $ref: "#/definitions/ProjectMemberScale"
+        },
+        projectPositiveComment: { type: "string" },
+        projectNagativeComment: { type: "string" },
+        developWorkConditions: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/DevelopWorkCondition"
+          }
+        },
+        billingMonthlyHoursMinimum: { type: "string", example: "140" },
+        billingMonthlyHoursMaximum: { type: "string", example: "180" },
+        projectRate: { type: "number", format: "float" },
+        active: { type: "boolean" }
+      }
+    },
+    ProjectSuggestListItem: {
+      type: "object",
+      $ref: "#/definitions/ProjectListItem"
+    },
+    ProjectSuggestFactor: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        projectTitle: {
+          type: "string"
+        },
+        station: {
+          $ref: "#/definitions/Station"
+        },
+        industry: {
+          $ref: "#/definitions/Industry"
+        },
+        skills: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Skill"
+          }
+        },
+        databases: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Database"
+          }
+        },
+        frameworks: {
+          type: "array",
+          items: {
+            $ref: "#/definitions/Framework"
+          }
+        },
+      }
+    },
+    ProjectTerm: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: {
+          type: "string",
+          example: "6ヶ月未満"
+        },
+      }
+    },
+    ContractType: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: {
+          type: "string", example: "フリーランス"
+        },
+      }
+    },
+    ProjectMemberScale: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: {
+          type: "string", example: "2~3人"
+        },
+      }
+    },
+    Position: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "SE(システムエンジニア)" },
+      }
+    },
+    Industry: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "ソーシャルゲーム" }
+      }
+    },
+    Station: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "渋谷" }
+      }
+    },
+    Skill: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "Ruby" }
+      }
+    },
+    Database: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "MySQL" }
+      }
+    },
+    Framework: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "Ruby on Rails" }
+      }
+    },
+    TechnicalDebt: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "技術的負債の返済を重視し、迅速に返済している" }
+      }
+    },
+    CodeReview: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "設計を意識している" }
+      }
+    },
+    TestingPolicy: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "高いテストカバレッジを目指している" }
+      }
+    },
+    Interview: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "簡単なプログラミング試験を受けた" }
+      }
+    },
+    ProjectTask: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "新規開発" }
+      }
+    },
+    DevelopWorkCondition: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "開発環境構築が自動化済み" }
+      }
+    },
+    OperationSystem: {
+      type: "object",
+      required: [
+        "id"
+      ],
+      properties: {
+        id: { type: "number" },
+        name: { type: "string", example: "Windows" }
       }
     }
-  },
-  externalDocs: {
-    description: "Find out more about Swagger",
-    url: "http://swagger.io"
   }
 }
